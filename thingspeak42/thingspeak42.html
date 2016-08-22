@@ -3,11 +3,12 @@
         category: 'function',
         color: '#a6bbcf',
         credentials: {
-            channelNumber: {type:"text"},
+            channel: {type:"text"},
             apiKey: {type:"password"}
         },
         defaults: {
             name: {value:""},
+            delay: {value:"15"},
             topic1: {value:""},
             topic2: {value:""},
             topic3: {value:""},
@@ -30,6 +31,10 @@
     <div class="form-row">
         <label for="node-input-name"><i class="icon-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-delay"><i class="icon-tag"></i>Delay</label>
+        <input type="text" id="node-input-delay" placeholder="Delay while aggregating values (seconds)">
     </div>
     <div class="form-row">
         <label for="node-input-topic1"><i class="icon-tag"></i>Topic 1</label>
@@ -64,7 +69,7 @@
         <input type="text" id="node-input-topic8" placeholder="Topic for Field 8">
     </div>
     <div class="form-row">
-        <label for="node-input-channelNumber"><i class="icon-tag"></i>Channel Number</label>
+        <label for="node-input-channel"><i class="icon-tag"></i>Channel</label>
         <input type="text" id="node-input-channelNumber" placeholder="ThingSpeak Channel Number">
     </div>
     <div class="form-row">
