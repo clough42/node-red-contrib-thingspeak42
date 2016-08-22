@@ -1,0 +1,13 @@
+{
+  "name"         : "node-red-contrib-thingspeak42",
+  "version"      : "0.0.1",
+  "description"  : "A node that posts data to a ThingSpeak channel.  Capable of aggregating multiple messages into a single mult-field post.",
+  "dependencies": {
+  },
+  "keywords": [ "node-red" ],
+  "node-red"     : {
+    "nodes": {
+      "thingspeak42": "thingspeak42/thingspeak42.js"
+    }
+  }
+}

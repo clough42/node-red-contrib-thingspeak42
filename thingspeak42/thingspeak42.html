@@ -1,0 +1,78 @@
+<script type="text/javascript">
+    RED.nodes.registerType('thingspeak42',{
+        category: 'function',
+        color: '#a6bbcf',
+        credentials: {
+            channelNumber: {type:"text"},
+            apiKey: {type:"password"}
+        },
+        defaults: {
+            name: {value:""},
+            topic1: {value:""},
+            topic2: {value:""},
+            topic3: {value:""},
+            topic4: {value:""},
+            topic5: {value:""},
+            topic6: {value:""},
+            topic7: {value:""},
+            topic8: {value:""}
+        },
+        inputs:1,
+        outputs:0,
+        icon: "file.png",
+        label: function() {
+            return this.name||"thingspeak42";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="thingspeak42">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-topic1"><i class="icon-tag"></i>Topic 1</label>
+        <input type="text" id="node-input-topic1" placeholder="Topic for Field 1">
+    </div>
+    <div class="form-row">
+        <label for="node-input-topic2"><i class="icon-tag"></i>Topic 2</label>
+        <input type="text" id="node-input-topic2" placeholder="Topic for Field 2">
+    </div>
+    <div class="form-row">
+        <label for="node-input-topic3"><i class="icon-tag"></i>Topic 3</label>
+        <input type="text" id="node-input-topic3" placeholder="Topic for Field 3">
+    </div>
+    <div class="form-row">
+        <label for="node-input-topic4"><i class="icon-tag"></i>Topic 4</label>
+        <input type="text" id="node-input-topic4" placeholder="Topic for Field 4">
+    </div>
+    <div class="form-row">
+        <label for="node-input-topic5"><i class="icon-tag"></i>Topic 5</label>
+        <input type="text" id="node-input-topic5" placeholder="Topic for Field 5">
+    </div>
+    <div class="form-row">
+        <label for="node-input-topic6"><i class="icon-tag"></i>Topic 6</label>
+        <input type="text" id="node-input-topic6" placeholder="Topic for Field 6">
+    </div>
+    <div class="form-row">
+        <label for="node-input-topic7"><i class="icon-tag"></i>Topic 7</label>
+        <input type="text" id="node-input-topic7" placeholder="Topic for Field 7">
+    </div>
+    <div class="form-row">
+        <label for="node-input-topic8"><i class="icon-tag"></i>Topic 8</label>
+        <input type="text" id="node-input-topic8" placeholder="Topic for Field 8">
+    </div>
+    <div class="form-row">
+        <label for="node-input-channelNumber"><i class="icon-tag"></i>Channel Number</label>
+        <input type="text" id="node-input-channelNumber" placeholder="ThingSpeak Channel Number">
+    </div>
+    <div class="form-row">
+        <label for="node-input-apiKey"><i class="icon-tag"></i>API Key</label>
+        <input type="password" id="node-input-apiKey" placeholder="ThingSpeak API Key">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="thingspeak42">
+    <p>A node that posts data to a multi-field ThingSpeak channel.</p>
+</script>
