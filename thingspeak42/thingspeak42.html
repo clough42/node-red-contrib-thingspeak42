@@ -1,9 +1,8 @@
 <script type="text/javascript">
     RED.nodes.registerType('thingspeak42',{
         category: 'function',
-        color: '#a6bbcf',
+        color: '#e87d81',
         credentials: {
-            channel: {type:"text", required:true},
             apiKey: {type:"password", required:true}
         },
         defaults: {
@@ -16,7 +15,8 @@
             topic5: {value:""},
             topic6: {value:""},
             topic7: {value:""},
-            topic8: {value:""}
+            topic8: {value:""},
+            endpoint: {type:"text", required:true, value:"https://thingspeak.com"},
         },
         inputs:1,
         outputs:0,
@@ -69,15 +69,57 @@
         <input type="text" id="node-input-topic8" placeholder="Topic for Field 8">
     </div>
     <div class="form-row">
-        <label for="node-input-channel"><i class="icon-globe"></i>Channel</label>
-        <input type="text" id="node-input-channel" placeholder="ThingSpeak Channel Number">
+        <label for="node-input-endpoint"><i class="icon-globe"></i>API URL</label>
+        <input type="text" id="node-input-endpoint" placeholder="ThingSpeak API endpoint URL">
     </div>
     <div class="form-row">
         <label for="node-input-apiKey"><i class="icon-lock"></i>API Key</label>
-        <input type="password" id="node-input-apiKey" placeholder="ThingSpeak API Key">
+        <input type="password" id="node-input-apiKey" placeholder="ThingSpeak Write API Key">
     </div>
 </script>
 
 <script type="text/x-red" data-help-name="thingspeak42">
-    <p>A node that posts data to a multi-field ThingSpeak channel.</p>
+    <p>Aggregate values and post them to a ThingSpeak channel.</p>
+
+    <p>When data arrives, it is stored for a configurable period of time and then
+    posted all at once.  This allows you to use data sources
+    that post one property at a time with multi-field ThingSpeak channels.
+    This is especially useful with devices that use the
+    Homie convention, which posts each property as a separate message.</p>
+
+    <p>Configuration:</p>
+
+    <ul>
+    <li><code>Name</code> - The name to display for this node.  Leave blank to use the default.</li>
+
+    <li><code>Delay</code> - The delay before posting data, in seconds.  When the first matching
+    message arrives, the timer is started.  As subsequent messages arrive and are matched,
+    the data is stored.  When the time expires, all of the stored data is posted to
+    ThingSpeak and the stored data is cleared.  The next matching topic will start the
+    timer again.</li>
+
+    <li><code>Topic 1</code> - The incoming message topic for channel Field 1.  When a message
+    with this topic arrives, the value of the payload is stored and the timer is started.
+    When the timer expires, this stored value is posted as Field 1.  If another message
+    with this topic arrives before the timer expires, the stored value will be
+    overwritten and the new value will be sent when the timer expires instead.  Subsequent
+    messages do not reset the timer.  If you do not wish to publish data for Field 1,
+    leave this configuration item blank.</li>
+
+    <li><code>Topic 2</code> - Same as above, except for channel Field 2.</li>
+    <li><code>Topic 3</code> - Same as above, except for channel Field 3.</li>
+    <li><code>Topic 4</code> - Same as above, except for channel Field 4.</li>
+    <li><code>Topic 5</code> - Same as above, except for channel Field 5.</li>
+    <li><code>Topic 6</code> - Same as above, except for channel Field 6.</li>
+    <li><code>Topic 7</code> - Same as above, except for channel Field 7.</li>
+    <li><code>Topic 8</code> - Same as above, except for channel Field 8.</li>
+
+    <li><code>API URL</code> - The URL of the ThingSpeak server.  If you are using the official
+    hosted site, you can use the default:  https://thingspeak.com</li>
+
+    <li><code>API Key</code> - This is the Write API Key for your ThingSpeak channel.  You can
+    obtain it from the web site.  (Requited)</li>
+
+    </ul>
+
 </script>

@@ -1,3 +1,5 @@
+var https = require('https');
+
 module.exports = function(RED) {
     function ThingSpeak42Node(config) {
         RED.nodes.createNode(this,config);
@@ -14,8 +16,9 @@ module.exports = function(RED) {
             config.topic7,
             config.topic8
             ];
-        node.channel = config.channel;
-        node.apiKey = config.apiKey;
+        node.endpoint = config.endpoint;
+
+        node.timeout = null;
 
         clearStoredValues();
 
@@ -31,28 +34,65 @@ module.exports = function(RED) {
             return node.values[i];
         }
 
+        function startTimer() {
+            if( node.timeout == null ) {
+                var delayMs = 1000 * node.delay;
+                node.timeout = setTimeout(publishData, delayMs);
+            }
+        }
+
+        function stopTimer() {
+            if( node.timeout != null ) {
+                clearTimeout(node.timeout);
+                node.timeout = null;
+            }
+        }
+
+        function publishData() {
+            var url = buildThingSpeakURL();
+            clearStoredValues();
+            stopTimer();
+
+            node.log("Posting to ThingSpeak: " + url);
+            https.get(url, function(response) {
+                    if(response.statusCode == 200){
+                        node.log("Posted to ThingSpeak");
+                    } else {
+                        node.error("Error posting to ThingSpeak: status code " + response.statusCode);
+                    }
+                }
+            ).on('error', function(e) {
+                node.error("Error posting to ThingSpeak: " + e);
+            });
+        }
+
+        function buildThingSpeakURL() {
+            var url = node.endpoint + "/update?api_key=" + node.credentials.apiKey;
+            for( i=0; i < node.topics.length; i++ ) {
+                var val = getValue(i);
+                if (val != null) {
+                    url = url + "&field" + (i + 1) + "=" + val;
+                }
+            }
+            return url;
+        }
+
         this.on('input', function(msg) {
             for(i=0; i < node.topics.length; i++) {
                 if( msg.topic == node.topics[i] ) {
-                    this.log("Found topic " + i);
                     storeValue(i, msg.payload);
+                    startTimer();
                 }
-            }
-
-            node.log("Stored values: ");
-            for(i=0; i < node.topics.length; i++) {
-                node.log("  " + i + ": " + getValue(i));
             }
         });
 
         this.on('close', function() {
-
+            stopTimer();
         });
     };
 
     RED.nodes.registerType("thingspeak42",ThingSpeak42Node, {
         credentials: {
-            channel: {type: "text"},
             apiKey: {type: "password"}
         }
     });
