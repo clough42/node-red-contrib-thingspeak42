@@ -5,6 +5,8 @@
   "dependencies": {
   },
   "keywords": [ "node-red" ],
+  "homepage": "https://github.com/clough42/node-red-contrib-thingspeak42",
+  "license": "MIT",
   "node-red"     : {
     "nodes": {
       "thingspeak42": "thingspeak42/thingspeak42.js"
