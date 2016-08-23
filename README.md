@@ -46,7 +46,7 @@ leave this configuration item blank.
 - `API URL` - The URL of the ThingSpeak server.  If you are using the official
 hosted site, you can use the default:  https://thingspeak.com
 - `API Key` - This is the Write API Key for your ThingSpeak channel.  You can
-obtain it from the web site.  (Requited)
+obtain it from the web site.  (Required)
 
 ## Error Handling
 
