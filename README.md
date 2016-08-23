@@ -53,3 +53,11 @@ obtain it from the web site.  (Requited)
 All errors posting data to ThingSpeak are caught and posted to the
 Node-Red error handler, so you can add an error handler to your flow to
 handle them.
+
+## Logging
+
+The node logs when it matches a topic, stores a value and ultimately
+posts the data to ThingSpeak.  Please note that the API key is removed
+from the URL and replaced with "XXXXXXXXXX" in the log messages to
+avoid leaking sensitive data.  The real API key is used for the actual
+ThingSpeak transaction.

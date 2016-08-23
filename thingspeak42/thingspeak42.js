@@ -27,6 +27,7 @@ module.exports = function(RED) {
         };
 
         function storeValue(index, value) {
+            node.log("Storing value for field " + (i+1));
             node.values[index] = value;
         };
 
@@ -36,6 +37,7 @@ module.exports = function(RED) {
 
         function startTimer() {
             if( node.timeout == null ) {
+                node.log("Starting " + node.delay + " second timer");
                 var delayMs = 1000 * node.delay;
                 node.timeout = setTimeout(publishData, delayMs);
             }
@@ -53,7 +55,7 @@ module.exports = function(RED) {
             clearStoredValues();
             stopTimer();
 
-            node.log("Posting to ThingSpeak: " + url);
+            node.log("Posting to ThingSpeak: " + url.replace(node.credentials.apiKey, "XXXXXXXXXX"));
             https.get(url, function(response) {
                     if(response.statusCode == 200){
                         node.log("Posted to ThingSpeak");
