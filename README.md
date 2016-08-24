@@ -61,3 +61,15 @@ posts the data to ThingSpeak.  Please note that the API key is removed
 from the URL and replaced with "XXXXXXXXXX" in the log messages to
 avoid leaking sensitive data.  The real API key is used for the actual
 ThingSpeak transaction.
+
+## Status
+
+While it is running, the node displays its status:
+
+- `ready` - The node is waiting for data messages to arrive.
+- `data queued, waiting...` - A message with a matching topic has arrived, the
+data is stored and the node is waiting for the timeout to expire before
+posting it to ThingSpeak.
+- `uploading data...` - The data is currently being uploaded to ThingSpeak.
+If everything is working, this message is displayed only briefly and
+may not be visible.
