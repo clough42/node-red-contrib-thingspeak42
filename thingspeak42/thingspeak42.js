@@ -24,11 +24,13 @@ module.exports = function(RED) {
 
         function clearStoredValues() {
             node.values = [ null, null, null, null, null, null, null, null ];
+            node.status({fill:"green",shape:"dot",text:"ready"});
         };
 
         function storeValue(index, value) {
             node.log("Storing value for field " + (i+1));
             node.values[index] = value;
+            node.status({fill:"yellow",shape:"ring",text:"data queued, waiting..."});
         };
 
         function getValue(index) {
@@ -51,8 +53,9 @@ module.exports = function(RED) {
         }
 
         function publishData() {
+            node.status({fill:"blue",shape:"dot",text:"uploading data..."});
+
             var url = buildThingSpeakURL();
-            clearStoredValues();
             stopTimer();
 
             node.log("Posting to ThingSpeak: " + url.replace(node.credentials.apiKey, "XXXXXXXXXX"));
@@ -66,6 +69,8 @@ module.exports = function(RED) {
             ).on('error', function(e) {
                 node.error("Error posting to ThingSpeak: " + e);
             });
+
+            clearStoredValues();
         }
 
         function buildThingSpeakURL() {
@@ -77,6 +82,14 @@ module.exports = function(RED) {
                 }
             }
             return url;
+        }
+
+        function updateStatus() {
+            if( timeout == null ) {
+                status({fill:"green",shape:"dot",text:"ready"});
+            } else {
+                status({fill:"blue",shape:"ring",text:"waiting to push"});
+            }
         }
 
         this.on('input', function(msg) {
