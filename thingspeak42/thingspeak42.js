@@ -1,4 +1,5 @@
 var https = require('https');
+var http = require('http');
 
 module.exports = function(RED) {
     function ThingSpeak42Node(config) {
@@ -59,16 +60,30 @@ module.exports = function(RED) {
             stopTimer();
 
             node.log("Posting to ThingSpeak: " + url.replace(node.credentials.apiKey, "XXXXXXXXXX"));
-            https.get(url, function(response) {
-                    if(response.statusCode == 200){
-                        node.log("Posted to ThingSpeak");
-                    } else {
-                        node.error("Error posting to ThingSpeak: status code " + response.statusCode);
-                    }
-                }
-            ).on('error', function(e) {
-                node.error("Error posting to ThingSpeak: " + e);
-            });
+			if(url.startsWith("https://")){
+				https.get(url, function(response) {
+						if(response.statusCode == 200){
+							node.log("Posted to ThingSpeak");
+						} else {
+							node.error("Error posting to ThingSpeak: status code " + response.statusCode);
+						}
+					}
+				).on('error', function(e) {
+					node.error("Error posting to ThingSpeak: " + e);
+				});
+			} else {
+				// http access for local unsecured instances
+				http.get(url, function(response) {
+						if(response.statusCode == 200){
+							node.log("Posted to ThingSpeak");
+						} else {
+							node.error("Error posting to ThingSpeak: status code " + response.statusCode);
+						}
+					}
+				).on('error', function(e) {
+					node.error("Error posting to ThingSpeak: " + e);
+				});
+			}
 
             clearStoredValues();
         }
